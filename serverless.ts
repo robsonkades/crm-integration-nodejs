@@ -188,6 +188,17 @@ const serverlessConfiguration: AWS = {
                   {
                     Effect: 'Allow',
                     Action: [
+                      'sqs:sendMessage',
+                      'sqs:deleteMessage',
+                      'sqs:getQueueAttributes',
+                      'sqs:receiveMessage',
+                    ],
+                    Resource:
+                      'arn:aws:sqs:us-east-1:*:CRMIntegrationInitialChargeProcessQueue',
+                  },
+                  {
+                    Effect: 'Allow',
+                    Action: [
                       'xray:PutTraceSegments',
                       'xray:PutTelemetryRecords',
                     ],
