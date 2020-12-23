@@ -10,7 +10,7 @@ import CreateInitialChargeService from '@modules/integration/services/CreateInit
 import ProcessDealsService from '@modules/integration/services/ProcessDeals.service';
 import UpdateAggregationOrdersService from '@modules/integration/services/UpdateAggregationOrders.service';
 
-export const initialCharge: SQSHandler = async () => {
+export const charge: SQSHandler = async () => {
   const createInitialChargeService = container.resolve(
     CreateInitialChargeService,
   );

@@ -94,19 +94,19 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
-    initialCharge: {
+    charge: {
       tags: {
-        function: 'crm-integration-initial-charge',
+        function: 'crm-integration-charge',
       },
       role: 'LambdaRole',
       timeout: 300,
-      name: 'crm-integration-initial-charge',
-      handler: 'src/integration.initialCharge',
+      name: 'crm-integration-charge',
+      handler: 'src/integration.charge',
       events: [
         {
           sqs: {
             arn: {
-              'Fn::GetAtt': ['CRMIntegrationInitialChargeProcessQueue', 'Arn'],
+              'Fn::GetAtt': ['CRMIntegrationChargeProcessQueue', 'Arn'],
             },
           },
         },
@@ -138,10 +138,10 @@ const serverlessConfiguration: AWS = {
           VisibilityTimeout: 900,
         },
       },
-      CRMIntegrationInitialChargeProcessQueue: {
+      CRMIntegrationChargeProcessQueue: {
         Type: 'AWS::SQS::Queue',
         Properties: {
-          QueueName: 'CRMIntegrationInitialChargeProcessQueue',
+          QueueName: 'CRMIntegrationChargeProcessQueue',
           VisibilityTimeout: 900,
         },
       },
@@ -194,7 +194,7 @@ const serverlessConfiguration: AWS = {
                       'sqs:receiveMessage',
                     ],
                     Resource:
-                      'arn:aws:sqs:us-east-1:*:CRMIntegrationInitialChargeProcessQueue',
+                      'arn:aws:sqs:us-east-1:*:CRMIntegrationChargeProcessQueue',
                   },
                   {
                     Effect: 'Allow',
