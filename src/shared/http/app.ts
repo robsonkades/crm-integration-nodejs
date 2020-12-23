@@ -4,6 +4,8 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 
+import '@config/database';
+
 import '../container';
 import * as logs from '@config/logs';
 
@@ -24,7 +26,7 @@ class App {
     this.server.use(helmet());
     this.server.use(cors());
     this.server.use(express.json());
-    this.server.use(AWSXRay.express.openSegment('tenant-service-app'));
+    this.server.use(AWSXRay.express.openSegment('crm-integration-app'));
   }
 
   routes() {

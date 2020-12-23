@@ -39,22 +39,77 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       DEBUG: 'app:*',
+      PIPEDRIVE_TOKEN: '3d2eaea4c8a8e1df5231176220f7b899e446c1f0',
+      BLING_TOKEN:
+        '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a',
     },
   },
   functions: {
     app: {
       tags: {
-        function: 'crm-integration',
+        function: 'crm-integration-app',
       },
       role: 'LambdaRole',
-      name: 'crm-integration-server',
+      name: 'crm-integration-app',
       handler: 'src/server.handler',
       events: [
         {
           http: {
             method: 'POST',
-            path: '/integration/change',
+            path: '/integration/charge',
             cors: true,
+          },
+        },
+      ],
+    },
+    process: {
+      tags: {
+        function: 'crm-integration-process',
+      },
+      role: 'LambdaRole',
+      timeout: 300,
+      name: 'crm-integration-process',
+      handler: 'src/integration.process',
+      events: [
+        {
+          sqs: {
+            arn: {
+              'Fn::GetAtt': ['CRMIntegrationProcessQueue', 'Arn'],
+            },
+          },
+        },
+      ],
+    },
+    initialCharge: {
+      tags: {
+        function: 'crm-integration-initial-charge',
+      },
+      role: 'LambdaRole',
+      timeout: 300,
+      name: 'crm-integration-initial-charge',
+      handler: 'src/integration.initialCharge',
+      events: [
+        {
+          sqs: {
+            arn: {
+              'Fn::GetAtt': ['CRMIntegrationInitialChargeProcessQueue', 'Arn'],
+            },
+          },
+        },
+      ],
+    },
+    scheduler: {
+      tags: {
+        function: 'crm-integration-scheduler',
+      },
+      role: 'LambdaRole',
+      name: 'crm-integration-scheduler',
+      handler: 'src/integration.scheduler',
+      events: [
+        {
+          schedule: {
+            rate: 'rate(24 hours)',
+            enabled: true,
           },
         },
       ],
@@ -62,6 +117,20 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
+      CRMIntegrationProcessQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'CRMIntegrationProcessQueue',
+          VisibilityTimeout: 900,
+        },
+      },
+      CRMIntegrationChargeInitialProcessQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'CRMIntegrationChargeInitialProcessQueue',
+          VisibilityTimeout: 900,
+        },
+      },
       LambdaRole: {
         Type: 'AWS::IAM::Role',
         Properties: {
@@ -94,22 +163,13 @@ const serverlessConfiguration: AWS = {
                   {
                     Effect: 'Allow',
                     Action: [
-                      'dynamodb:GetItem',
-                      'dynamodb:PutItem',
-                      'dynamodb:Scan',
-                      'dynamodb:UpdateItem',
-                      'dynamodb:CreateTable',
-                      'dynamodb:DescribeTable',
-                      'dynamodb:DeleteItem',
-                      'dynamodb:Query',
+                      'sqs:sendMessage',
+                      'sqs:deleteMessage',
+                      'sqs:getQueueAttributes',
+                      'sqs:receiveMessage',
                     ],
-                    Resource: 'arn:aws:dynamodb:us-east-1:*:table/Tenants',
-                  },
-                  {
-                    Effect: 'Allow',
-                    Action: ['dynamodb:Scan', 'dynamodb:Query'],
                     Resource:
-                      'arn:aws:dynamodb:us-east-1:*:table/Tenants/index/*',
+                      'arn:aws:sqs:us-east-1:*:CRMIntegrationProcessQueue',
                   },
                   {
                     Effect: 'Allow',

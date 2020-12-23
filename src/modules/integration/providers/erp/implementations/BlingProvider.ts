@@ -1,20 +1,12 @@
 import axios from 'axios';
 
-interface IBlingOrder {
-  title: string;
-  amount: number;
-}
+import IERPProver, { ICountOrderByDate, IOrder } from '../models/IERPProver';
 
 interface IPagination {
   page: number;
 }
 
-export interface IOrder {
-  data: string;
-  total: number;
-}
-
-export interface IOrderResponse {
+export interface IOrderData {
   pedido: {
     data: string;
     totalvenda: string;
@@ -23,7 +15,7 @@ export interface IOrderResponse {
 
 interface IOrders {
   retorno: {
-    pedidos?: Array<IOrderResponse>;
+    pedidos?: Array<IOrderData>;
     erros?: Array<{
       erro: {
         cod: number;
@@ -33,9 +25,10 @@ interface IOrders {
   };
 }
 
-export default {
-  saveOrder: async ({ title, amount }: IBlingOrder): Promise<void> => {
+export default class BlingProvider implements IERPProver {
+  async saveOrder({ title, amount }: IOrder): Promise<void> {
     const id = Math.floor(Math.random() * 999999999);
+
     const xml = `
     <?xml version='1.0'?>
     <pedido>
@@ -52,8 +45,7 @@ export default {
         </itens>
     </pedido>`;
 
-    const api_key =
-      '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a';
+    const api_key = process.env.BLING_TOKEN;
 
     await axios.post(
       `https://bling.com.br/Api/v2/pedido/json/`,
@@ -65,9 +57,10 @@ export default {
         },
       },
     );
-  },
-  listOrdersByDate: async (date: string): Promise<Array<IOrder>> => {
-    const orders: Array<IOrder> = [];
+  }
+
+  async listOrdersByDate(date: string): Promise<ICountOrderByDate[]> {
+    const orders: Array<ICountOrderByDate> = [];
     const fetch = async ({ page }: IPagination): Promise<void> => {
       const api_key =
         '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a';
@@ -101,5 +94,5 @@ export default {
     await fetch({ page: 1 });
 
     return orders;
-  },
-};
+  }
+}

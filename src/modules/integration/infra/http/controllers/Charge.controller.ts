@@ -1,25 +1,21 @@
 import { Request, Response } from 'express';
 
-import CreateAggregationOrdersService from '@modules/integration/services/CreateAggregationOrders.service';
-import CreateBlingOrderService from '@modules/integration/services/CreateBlingOrder.service';
-import CreateInitialChargeService from '@modules/integration/services/CreateInitialCharge.service';
+import SendMessageToQueue from '@shared/utils/SendMessageToQueue';
+
+interface IChargePayload {
+  type: string;
+}
 
 class ChargeController {
   async create(_: Request, response: Response): Promise<Response> {
-    const charges = await CreateInitialChargeService.execute();
+    await SendMessageToQueue.execute<IChargePayload>({
+      payload: {
+        type: 'INITIAL_CHARGE',
+      },
+      queue: 'CRMIntegrationInitialChargeProcessQueue',
+    });
 
-    await CreateAggregationOrdersService.execute();
-
-    const promises = charges.map(({ title, value }) =>
-      CreateBlingOrderService.execute({
-        amount: value,
-        title,
-      }),
-    );
-
-    await Promise.all(promises);
-
-    return response.json();
+    return response.status(204).json();
   }
 }
 

@@ -1,20 +1,6 @@
 import axios from 'axios';
 
-export enum DealStatus {
-  OPEN = 'open',
-  WON = 'won',
-  LOST = 'lost',
-  DELETED = 'deleted',
-}
-
-export interface Deal {
-  id: number;
-  title: string;
-  currency: string;
-  value: number;
-  status: DealStatus;
-  won_time: string;
-}
+import ICRMProvider, { Deal } from '../models/ICRMProvider';
 
 interface IRequest {
   data: Array<Deal>;
@@ -33,8 +19,8 @@ interface IPagination {
   limit: number;
 }
 
-export default {
-  listDeals: async (): Promise<Deal[]> => {
+export default class PipedriveProvider implements ICRMProvider {
+  public async listDeals(): Promise<Deal[]> {
     const deals: Deal[] = [];
     const fetch = async ({ page, limit }: IPagination): Promise<void> => {
       const response = await axios.get<IRequest>(
@@ -61,5 +47,5 @@ export default {
     await fetch({ page: 0, limit: 1 });
 
     return deals;
-  },
-};
+  }
+}
