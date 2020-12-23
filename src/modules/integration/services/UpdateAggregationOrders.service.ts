@@ -1,7 +1,8 @@
 import { startOfDay } from 'date-fns';
 import { container } from 'tsyringe';
 
-import Order from '../../order/infra/mongoose/schemas/Order';
+import CreateOrUpdateOrderService from '@modules/order/services/CreateOrUpdateOrder.service';
+
 import { ICountOrderByDate } from '../providers/erp/models/IERPProver';
 import ListOrdersByDateService from './ListOrdersByDate.service';
 
@@ -9,8 +10,8 @@ class UpdateAggregationOrdersService {
   async execute(): Promise<ICountOrderByDate | undefined> {
     const listOrdersByDateService = container.resolve(ListOrdersByDateService);
 
-    const day = startOfDay(new Date(Date.now()));
-    const orders = await listOrdersByDateService.execute(day);
+    const date = startOfDay(new Date(Date.now()));
+    const orders = await listOrdersByDateService.execute(date);
 
     if (orders.length) {
       const orderAggregate = orders.reduce(
@@ -22,20 +23,11 @@ class UpdateAggregationOrdersService {
         },
       );
 
-      const alreadyExistsOrder = await Order.findOne({
-        date: day,
+      await CreateOrUpdateOrderService.execute({
+        date,
+        total: orderAggregate.total,
       });
 
-      if (alreadyExistsOrder) {
-        await alreadyExistsOrder.updateOne({
-          value: orderAggregate.total,
-        });
-      } else {
-        await Order.create({
-          date: day,
-          value: orderAggregate.total,
-        });
-      }
       return orderAggregate;
     }
 
