@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 
 import CreateOrUpdateOrderService from '@modules/order/services/CreateOrUpdateOrder.service';
 
-import { ICountOrderByDate } from '../providers/erp/models/IERPProver';
+import ICountOrderByDate from '../dtos/ICountOrderByDate';
 import ListOrdersByDateService from './ListOrdersByDate.service';
 
 class UpdateAggregationOrdersService {

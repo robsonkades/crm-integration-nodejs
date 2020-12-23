@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import IERPProver, { IOrder } from '../providers/erp/models/IERPProver';
+import IOrder from '../dtos/IOrder';
+import IERPProver from '../providers/erp/models/IERPProver';
 
 @injectable()
 class CreateOrderService {

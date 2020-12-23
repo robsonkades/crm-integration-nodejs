@@ -2,11 +2,11 @@ import { container } from 'tsyringe';
 
 import * as logs from '@config/logs';
 
-import { Deal } from '../providers/crm/models/ICRMProvider';
+import IDeal from '../dtos/IDeal';
 import CreateOrderService from './CreateOrder.service';
 
 class ProcessDealsService {
-  async execute(deals: Array<Deal>): Promise<void> {
+  async execute(deals: Array<IDeal>): Promise<void> {
     const createOrderService = container.resolve(CreateOrderService);
     try {
       const orders = deals.map(({ value, title }) =>

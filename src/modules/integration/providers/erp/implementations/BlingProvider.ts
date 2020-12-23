@@ -1,29 +1,11 @@
 import axios from 'axios';
 
-import IERPProver, { ICountOrderByDate, IOrder } from '../models/IERPProver';
+import ICountOrderByDate from '@modules/integration/dtos/ICountOrderByDate';
+import IOrder from '@modules/integration/dtos/IOrder';
+import IOrders from '@modules/integration/dtos/IOrders';
+import IPage from '@modules/integration/dtos/IPage';
 
-interface IPagination {
-  page: number;
-}
-
-export interface IOrderData {
-  pedido: {
-    data: string;
-    totalvenda: string;
-  };
-}
-
-interface IOrders {
-  retorno: {
-    pedidos?: Array<IOrderData>;
-    erros?: Array<{
-      erro: {
-        cod: number;
-        msg: string;
-      };
-    }>;
-  };
-}
+import IERPProver from '../models/IERPProver';
 
 export default class BlingProvider implements IERPProver {
   async saveOrder({ title, amount }: IOrder): Promise<void> {
@@ -61,7 +43,7 @@ export default class BlingProvider implements IERPProver {
 
   async listOrdersByDate(date: string): Promise<ICountOrderByDate[]> {
     const orders: Array<ICountOrderByDate> = [];
-    const fetch = async ({ page }: IPagination): Promise<void> => {
+    const fetch = async ({ page }: IPage): Promise<void> => {
       const api_key =
         '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a';
 

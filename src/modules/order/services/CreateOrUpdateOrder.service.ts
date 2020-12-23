@@ -1,9 +1,6 @@
-import Order, { IOrder } from '../infra/mongoose/schemas/Order';
+import IOrderRequest from '@modules/integration/dtos/IOrderRequest';
 
-interface IOrderRequest {
-  date: Date;
-  total: number;
-}
+import Order, { IOrder } from '../infra/mongoose/schemas/Order';
 
 class CreateOrUpdateOrderService {
   async execute({ date, total }: IOrderRequest): Promise<IOrder> {

@@ -3,7 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import * as logs from '@config/logs';
 import SendMessageToQueue from '@shared/utils/SendMessageToQueue';
 
-import ICRMProvider, { Deal } from '../providers/crm/models/ICRMProvider';
+import IDeal from '../dtos/IDeal';
+import ICRMProvider from '../providers/crm/models/ICRMProvider';
 
 @injectable()
 class CreateInitialChargeService {
@@ -16,7 +17,7 @@ class CreateInitialChargeService {
     try {
       const response = await this.crmProvider.listDeals();
       const promises = response.map(item =>
-        SendMessageToQueue.execute<Deal>({
+        SendMessageToQueue.execute<IDeal>({
           payload: item,
           queue: 'CRMIntegrationProcessQueue',
         }),

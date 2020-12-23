@@ -60,6 +60,20 @@ const serverlessConfiguration: AWS = {
             cors: true,
           },
         },
+        {
+          http: {
+            method: 'GET',
+            path: '/orders',
+            cors: true,
+            request: {
+              parameters: {
+                querystrings: {
+                  page: true,
+                },
+              },
+            },
+          },
+        },
       ],
     },
     process: {
@@ -109,7 +123,7 @@ const serverlessConfiguration: AWS = {
         {
           schedule: {
             rate: 'rate(2 minutes)',
-            enabled: true,
+            enabled: false,
           },
         },
       ],

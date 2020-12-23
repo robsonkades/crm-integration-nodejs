@@ -5,7 +5,7 @@ import { SQSHandler, Handler } from 'aws-lambda';
 import { container } from 'tsyringe';
 import '@config/database';
 
-import { Deal } from '@modules/integration/providers/crm/models/ICRMProvider';
+import IDeal from '@modules/integration/dtos/IDeal';
 import CreateInitialChargeService from '@modules/integration/services/CreateInitialCharge.service';
 import ProcessDealsService from '@modules/integration/services/ProcessDeals.service';
 import UpdateAggregationOrdersService from '@modules/integration/services/UpdateAggregationOrders.service';
@@ -19,7 +19,7 @@ export const initialCharge: SQSHandler = async () => {
 
 export const process: SQSHandler = async (event, _) => {
   if (event.Records) {
-    const deals = event.Records.map(item => JSON.parse(item.body) as Deal);
+    const deals = event.Records.map(item => JSON.parse(item.body) as IDeal);
     await ProcessDealsService.execute(deals);
   }
 };

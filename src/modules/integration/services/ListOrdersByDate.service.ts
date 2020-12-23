@@ -1,9 +1,8 @@
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import IERPProver, {
-  ICountOrderByDate,
-} from '../providers/erp/models/IERPProver';
+import ICountOrderByDate from '../dtos/ICountOrderByDate';
+import IERPProver from '../providers/erp/models/IERPProver';
 
 @injectable()
 class ListOrdersCurrentDayService {
