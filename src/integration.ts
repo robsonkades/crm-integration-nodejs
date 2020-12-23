@@ -3,6 +3,7 @@ import '@shared/container';
 
 import { SQSHandler, Handler } from 'aws-lambda';
 import { container } from 'tsyringe';
+import '@config/database';
 
 import { Deal } from '@modules/integration/providers/crm/models/ICRMProvider';
 import CreateInitialChargeService from '@modules/integration/services/CreateInitialCharge.service';

@@ -108,7 +108,7 @@ const serverlessConfiguration: AWS = {
       events: [
         {
           schedule: {
-            rate: 'rate(24 hours)',
+            rate: 'rate(2 minutes)',
             enabled: true,
           },
         },
@@ -124,10 +124,10 @@ const serverlessConfiguration: AWS = {
           VisibilityTimeout: 900,
         },
       },
-      CRMIntegrationChargeInitialProcessQueue: {
+      CRMIntegrationInitialChargeProcessQueue: {
         Type: 'AWS::SQS::Queue',
         Properties: {
-          QueueName: 'CRMIntegrationChargeInitialProcessQueue',
+          QueueName: 'CRMIntegrationInitialChargeProcessQueue',
           VisibilityTimeout: 900,
         },
       },
