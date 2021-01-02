@@ -1,23 +1,32 @@
+import { inject, injectable } from 'tsyringe';
+
 import IOrderRequest from '@modules/integration/dtos/IOrderRequest';
 
-import Order, { IOrder } from '../infra/mongoose/schemas/Order';
+import IOrder from '../dtos/IOrder';
+import ITOrderRepository from '../repositories/IOrderRepository';
 
+@injectable()
 class CreateOrUpdateOrderService {
+  constructor(
+    @inject('OrderRepository')
+    private orderRepository: ITOrderRepository | ITOrderRepository,
+  ) {}
+
   async execute({ date, total }: IOrderRequest): Promise<IOrder> {
-    const alreadyExistsOrder = await Order.findOne({
-      date,
-    });
+    const alreadyExistsOrder = await this.orderRepository.findByDate(date);
 
     if (alreadyExistsOrder) {
-      return alreadyExistsOrder.updateOne({
+      return this.orderRepository.update({
+        id: alreadyExistsOrder.id,
         value: total,
+        date,
       });
     }
-    return Order.create({
+    return this.orderRepository.create({
       date,
       value: total,
     });
   }
 }
 
-export default new CreateOrUpdateOrderService();
+export default CreateOrUpdateOrderService;

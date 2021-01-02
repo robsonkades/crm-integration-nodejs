@@ -16,9 +16,9 @@ class CreateInitialChargeService {
   async execute(): Promise<void> {
     try {
       const response = await this.crmProvider.listDeals();
-      const promises = response.map(item =>
+      const promises = response.map(payload =>
         SendMessageToQueue.execute<IDeal>({
-          payload: item,
+          payload,
           queue: 'CRMIntegrationProcessQueue',
         }),
       );

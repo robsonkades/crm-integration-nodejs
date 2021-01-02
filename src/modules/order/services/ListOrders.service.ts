@@ -1,17 +1,26 @@
-import Order, { IOrder } from '../infra/mongoose/schemas/Order';
+import { inject, injectable } from 'tsyringe';
 
+import IOrder from '../dtos/IOrder';
+import ITOrderRepository from '../repositories/IOrderRepository';
+
+@injectable()
 class ListOrdersService {
+  constructor(
+    @inject('OrderRepository')
+    private orderRepository: ITOrderRepository | ITOrderRepository,
+  ) {}
+
   async execute(page: number): Promise<IOrder[]> {
     const pageSize = 10;
 
-    return Order.find()
-      .limit(pageSize)
-      .skip(pageSize * page)
-      .sort({
+    return this.orderRepository.listOrders({
+      limit: pageSize,
+      skip: pageSize * page,
+      sort: {
         date: 'desc',
-      })
-      .exec();
+      },
+    });
   }
 }
 
-export default new ListOrdersService();
+export default ListOrdersService;

@@ -17,8 +17,4 @@ const schema = new Schema({
   },
 });
 
-const Order = model<IOrder>('Order', schema);
-
-export default Order;
-
-export { IOrder };
+export default model<IOrder>('Order', schema);
