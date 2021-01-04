@@ -63,6 +63,20 @@ const serverlessConfiguration: AWS = {
         {
           http: {
             method: 'GET',
+            path: '/integration/webhooks',
+            cors: true,
+          },
+        },
+        {
+          http: {
+            method: 'POST',
+            path: '/integration/webhooks',
+            cors: true,
+          },
+        },
+        {
+          http: {
+            method: 'GET',
             path: '/orders',
             cors: true,
             request: {
@@ -72,6 +86,13 @@ const serverlessConfiguration: AWS = {
                 },
               },
             },
+          },
+        },
+        {
+          http: {
+            method: 'GET',
+            path: '/api-docs',
+            cors: true,
           },
         },
       ],

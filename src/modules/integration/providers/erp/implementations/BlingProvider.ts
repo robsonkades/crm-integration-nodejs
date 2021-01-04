@@ -8,6 +8,8 @@ import IPage from '@modules/integration/dtos/IPage';
 import IERPProvider from '../models/IERPProvider';
 
 export default class BlingProvider implements IERPProvider {
+  BASE_URL = 'https://bling.com.br/Api/v2';
+
   async saveOrder({ title, amount }: IOrder): Promise<void> {
     const id = Math.floor(Math.random() * 999999999);
 
@@ -30,7 +32,7 @@ export default class BlingProvider implements IERPProvider {
     const api_key = process.env.BLING_TOKEN;
 
     await axios.post(
-      `https://bling.com.br/Api/v2/pedido/json/`,
+      `${this.BASE_URL}/pedido/json/`,
       {},
       {
         params: {
@@ -44,11 +46,10 @@ export default class BlingProvider implements IERPProvider {
   async listOrdersByDate(date: string): Promise<ICountOrderByDate[]> {
     const orders: Array<ICountOrderByDate> = [];
     const fetch = async ({ page }: IPage): Promise<void> => {
-      const api_key =
-        '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a';
+      const api_key = process.env.BLING_TOKEN;
 
       const response = await axios.get<IOrders>(
-        `https://bling.com.br/Api/v2/pedidos/page=${page}/json/`,
+        `${this.BASE_URL}/pedidos/page=${page}/json/`,
         {
           params: {
             filters: `dataEmissao[${date} TO ${date}]`,
