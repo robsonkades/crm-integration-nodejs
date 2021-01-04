@@ -1,13 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
 import IOrder from '../dtos/IOrder';
-import ITOrderRepository from '../repositories/IOrderRepository';
+import IOrderRepository from '../repositories/IOrderRepository';
 
 @injectable()
 class ListOrdersService {
   constructor(
     @inject('OrderRepository')
-    private orderRepository: ITOrderRepository | ITOrderRepository,
+    private orderRepository: IOrderRepository | IOrderRepository,
   ) {}
 
   async execute(page: number): Promise<IOrder[]> {

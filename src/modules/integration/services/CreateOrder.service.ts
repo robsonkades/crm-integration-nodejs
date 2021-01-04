@@ -1,13 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
 import IOrder from '../dtos/IOrder';
-import IERPProver from '../providers/erp/models/IERPProver';
+import IERPProvider from '../providers/erp/models/IERPProvider';
 
 @injectable()
 class CreateOrderService {
   constructor(
-    @inject('ERPProver')
-    private erpProvider: IERPProver | IERPProver,
+    @inject('ERPProvider')
+    private erpProvider: IERPProvider | IERPProvider,
   ) {}
 
   async execute({ title, amount }: IOrder): Promise<void> {

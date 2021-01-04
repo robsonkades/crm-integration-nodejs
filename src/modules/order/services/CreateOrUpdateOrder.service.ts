@@ -3,13 +3,13 @@ import { inject, injectable } from 'tsyringe';
 import IOrderRequest from '@modules/integration/dtos/IOrderRequest';
 
 import IOrder from '../dtos/IOrder';
-import ITOrderRepository from '../repositories/IOrderRepository';
+import IOrderRepository from '../repositories/IOrderRepository';
 
 @injectable()
 class CreateOrUpdateOrderService {
   constructor(
     @inject('OrderRepository')
-    private orderRepository: ITOrderRepository | ITOrderRepository,
+    private orderRepository: IOrderRepository | IOrderRepository,
   ) {}
 
   async execute({ date, total }: IOrderRequest): Promise<IOrder> {

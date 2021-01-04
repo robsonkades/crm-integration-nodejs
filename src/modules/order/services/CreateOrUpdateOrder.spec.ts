@@ -1,9 +1,9 @@
 import FakeOrderRepository from '../repositories/fakes/FakeOrderRepository';
-import ITOrderRepository from '../repositories/IOrderRepository';
+import IOrderRepository from '../repositories/IOrderRepository';
 import CreateOrUpdateOrderService from './CreateOrUpdateOrder.service';
 
 describe('CreateOrUpdateOrder', () => {
-  let fakeOrderRepository: ITOrderRepository;
+  let fakeOrderRepository: IOrderRepository;
 
   beforeEach(() => {
     fakeOrderRepository = new FakeOrderRepository();

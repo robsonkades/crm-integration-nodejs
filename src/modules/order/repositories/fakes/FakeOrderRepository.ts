@@ -3,9 +3,9 @@ import { isEqual } from 'date-fns';
 import ServiceException from '@shared/errors/ServiceException';
 
 import IOrder from '../../dtos/IOrder';
-import ITOrderRepository, { Full, PaginationProps } from '../IOrderRepository';
+import IOrderRepository, { Full, PaginationProps } from '../IOrderRepository';
 
-class FakeOrderRepository implements ITOrderRepository {
+class FakeOrderRepository implements IOrderRepository {
   orders: Full<IOrder>[] = [];
 
   listOrders(_: PaginationProps): Promise<Full<IOrder[]>> {

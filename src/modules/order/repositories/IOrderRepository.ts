@@ -12,7 +12,7 @@ export interface PaginationProps {
   };
 }
 
-export default interface ITOrderRepository {
+export default interface IOrderRepository {
   update(order: Full<IOrder>): Promise<IOrder>;
   create(data: IOrder): Promise<IOrder>;
   findByDate(date: Date): Promise<Full<IOrder> | undefined>;

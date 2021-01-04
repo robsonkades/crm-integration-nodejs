@@ -1,12 +1,12 @@
 import IOrder from '@modules/order/dtos/IOrder';
-import ITOrderRepository, {
+import IOrderRepository, {
   PaginationProps,
   Full,
 } from '@modules/order/repositories/IOrderRepository';
 
 import Order from '../schemas/Order';
 
-class OrderRepository implements ITOrderRepository {
+class OrderRepository implements IOrderRepository {
   async update(order: {
     id: string;
     date: Date;

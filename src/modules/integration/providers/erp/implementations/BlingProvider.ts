@@ -5,9 +5,9 @@ import IOrder from '@modules/integration/dtos/IOrder';
 import IOrders from '@modules/integration/dtos/IOrders';
 import IPage from '@modules/integration/dtos/IPage';
 
-import IERPProver from '../models/IERPProver';
+import IERPProvider from '../models/IERPProvider';
 
-export default class BlingProvider implements IERPProver {
+export default class BlingProvider implements IERPProvider {
   async saveOrder({ title, amount }: IOrder): Promise<void> {
     const id = Math.floor(Math.random() * 999999999);
 

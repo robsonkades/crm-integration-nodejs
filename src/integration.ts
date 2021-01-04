@@ -20,7 +20,8 @@ export const charge: SQSHandler = async () => {
 export const process: SQSHandler = async (event, _) => {
   if (event.Records) {
     const deals = event.Records.map(item => JSON.parse(item.body) as IDeal);
-    await ProcessDealsService.execute(deals);
+    const processDealsService = container.resolve(ProcessDealsService);
+    await processDealsService.execute(deals);
   }
 };
 

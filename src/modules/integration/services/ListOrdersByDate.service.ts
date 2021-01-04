@@ -2,13 +2,13 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import ICountOrderByDate from '../dtos/ICountOrderByDate';
-import IERPProver from '../providers/erp/models/IERPProver';
+import IERPProvider from '../providers/erp/models/IERPProvider';
 
 @injectable()
 class ListOrdersCurrentDayService {
   constructor(
-    @inject('ERPProver')
-    private erpProvider: IERPProver | IERPProver,
+    @inject('ERPProvider')
+    private erpProvider: IERPProvider | IERPProvider,
   ) {}
 
   async execute(day: Date): Promise<ICountOrderByDate[]> {
