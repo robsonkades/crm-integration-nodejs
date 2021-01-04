@@ -1,6 +1,26 @@
 # Challenge linkapi
 
-Serviço de integração pipedrive com bling.
+Serviço serverless de integração pipedrive com bling.
+
+**Construido utilizando**
+
+Esse exemplo foi construido com base no [projeto](https://github.com/inovedev/serverless-architecture-boilerplate)
+
+- API Gateway
+- AWS Lambda
+- DynamoDB
+- X-Ray
+- Mongoose
+- Express
+- Yup
+- Jest
+- Serverless.js
+- Typescript
+- Serverless Offline
+- Debug
+- Husky
+- Commitlint
+- S.O.L.I.D
 
 ## Installation
 
