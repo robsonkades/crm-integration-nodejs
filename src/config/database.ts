@@ -8,8 +8,7 @@ class Database {
   }
 
   init() {
-    const uri =
-      'mongodb+srv://robsonkades:6waySHuz9qrNV033@cluster0.gu0tb.mongodb.net/orders?retryWrites=true&w=majority';
+    const uri = process.env.MONGO_URL || '';
     mongoose
       .connect(uri, {
         useNewUrlParser: true,

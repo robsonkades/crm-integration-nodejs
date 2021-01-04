@@ -17,6 +17,7 @@ Serviço de integração pipedrive com bling.
 - `PIPEDRIVE_TOKEN`: Token de aplicação do pipedrive
 - `BLING_TOKEN`:  Token de aplicação Bling
 - `DEBUG`: Logs da aplicação
+- `MONGO_URL`: Url de conexão com o mongoDB
 
 ## Architecture
 

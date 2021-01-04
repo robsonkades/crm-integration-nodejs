@@ -42,6 +42,8 @@ const serverlessConfiguration: AWS = {
       PIPEDRIVE_TOKEN: '3d2eaea4c8a8e1df5231176220f7b899e446c1f0',
       BLING_TOKEN:
         '0b47417f6dd816521e73d28cabc89015a57c11cb0b698329bbd082f3848e15a3c68dbf6a',
+      MONGO_URL:
+        'mongodb+srv://USER:PASSWORD@cluster0.gu0tb.mongodb.net/orders?retryWrites=true&w=majority',
     },
   },
   functions: {
