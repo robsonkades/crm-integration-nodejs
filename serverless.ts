@@ -146,8 +146,8 @@ const serverlessConfiguration: AWS = {
         {
           schedule: {
             name: 'Scheduler CRM Integration',
-            rate: 'rate(2 minutes)',
-            enabled: false,
+            rate: 'rate(15 minutes)',
+            enabled: true,
           },
         },
       ],
